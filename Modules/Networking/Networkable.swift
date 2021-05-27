@@ -5,7 +5,6 @@
 import Foundation
 import RxSwift
 import RxCocoa
-import TrustKit
 
 public protocol Networkable {
     func request<T, U>(_ request: Requestable, errorType: U.Type) -> Observable<T> where T : Decodable, U : Decodable, U : Error
@@ -38,14 +37,12 @@ public class URLSessionNetwork: Networkable, NetworkableInfo {
         formatter.calendar = Calendar(identifier: .gregorian)
         defaultDecoder.dateDecodingStrategy = .formatted(formatter)
         self.decoder = defaultDecoder
-//        self.renewToken = nil
         self.headers = [:]
     }
     
     public init(base url: URL, environment: Environment = .server, decoder: JSONDecoder? = nil, headers: [String: String] = [:]) {
         self.baseURL = url
         self.environment = environment
-//        self.renewToken = renewToken
         
         if let customDecoder = decoder {
             self.decoder = customDecoder
@@ -71,8 +68,6 @@ public class URLSessionNetwork: Networkable, NetworkableInfo {
     }
 
     public func request<T, U>(_ request: Requestable, errorType: U.Type) -> Observable<T> where T : Decodable, U : Decodable, U: Error {
-        
-//        guard let renewToken = renewToken else { return Observable.empty() }
         
         if let data = request.sampleData, environment == .local {
             
@@ -139,10 +134,6 @@ private class URLSessionEncryption: NSObject, URLSessionDelegate {
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge,
                     completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         
-        let pinningValidator = TrustKit.sharedInstance().pinningValidator
-
-        if pinningValidator.handle(challenge, completionHandler: completionHandler) == false {
-            completionHandler(.performDefaultHandling, nil)
-        }
+        completionHandler(.performDefaultHandling, nil)
     }
 }

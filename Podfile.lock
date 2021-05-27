@@ -4,12 +4,19 @@ PODS:
     - RxSwift (~> 6.0)
   - Domain (1.0.0):
     - RxSwift
+  - Extensions (1.0.0):
+    - Extensions/All (= 1.0.0)
+    - RxCocoa
+    - RxSwift
+  - Extensions/All (1.0.0):
+    - MBProgressHUD
+    - RxCocoa
+    - RxSwift
   - Kingfisher (6.2.1)
   - MBProgressHUD (1.2.0)
   - Networking (1.0.0):
     - RxCocoa
     - RxSwift
-    - TrustKit
   - Platform (1.0.0):
     - Domain (= 1.0.0)
     - Networking (= 1.0.0)
@@ -28,12 +35,16 @@ PODS:
   - RxRelay (6.1.0):
     - RxSwift (= 6.1.0)
   - RxSwift (6.1.0)
+  - SceneCore (1.0.0):
+    - Domain (= 1.0.0)
+    - RxCocoa
+    - RxSwift
   - SwiftLint (0.43.1)
-  - TrustKit (1.7.0)
 
 DEPENDENCIES:
   - Action
   - Domain (from `Modules`)
+  - Extensions (from `Modules`)
   - Kingfisher
   - MBProgressHUD
   - Networking (from `Modules`)
@@ -42,6 +53,7 @@ DEPENDENCIES:
   - RxCocoa
   - RxOptional
   - RxSwift
+  - SceneCore (from `Modules`)
   - SwiftLint
 
 SPEC REPOS:
@@ -55,31 +67,35 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
     - SwiftLint
-    - TrustKit
 
 EXTERNAL SOURCES:
   Domain:
+    :path: Modules
+  Extensions:
     :path: Modules
   Networking:
     :path: Modules
   Platform:
     :path: Modules
+  SceneCore:
+    :path: Modules
 
 SPEC CHECKSUMS:
   Action: 9891cd1b0a9047557d7e58e8dfae743e19d08197
   Domain: 5dc66428b01b68ad19823fafe64a0cd6a85412d7
+  Extensions: 398aeb5dcff700ffde6ce122f21add7a99c3e678
   Kingfisher: e71c6fac2aebb1262888cabc2cb13d313362a48f
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
-  Networking: ff1c1dc611499a20ea0b3a99c46235d1ed5b1a73
+  Networking: dccaa60e44170d225edcc92bd0468d2bcaa1f240
   Platform: 85088f87d59fc45d07db6768017d5df2b353bdb2
   Reusable: 53a9acf5c536f229b31b5865782414b508252ddb
   RxCocoa: 5c51f02d562cbd94629f6c26cf0c80fe4ab8d343
   RxOptional: 3664964c96b69dd20c9cf78bdfe546615e26eca8
   RxRelay: 483e1a19fad961b41f0b0c0bee506f46c1ae14fe
   RxSwift: a834e5c538e89eca0cae86f403f4fbf0336786ce
+  SceneCore: 365de2bf8fb77dfb00617d970742f6be3430c672
   SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
-  TrustKit: dac38bb37e49bdfeca41b1a19d020da38017b51c
 
-PODFILE CHECKSUM: 65d0fb3ba56076579faaa4e434eb7e2c0b8b6f87
+PODFILE CHECKSUM: ffa9401a733babea4b7e1a208fbdfa9ac406d4a2
 
 COCOAPODS: 1.10.0

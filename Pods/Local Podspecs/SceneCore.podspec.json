@@ -1,0 +1,29 @@
+{
+  "name": "SceneCore",
+  "version": "1.0.0",
+  "summary": "Core classes for main application and every modules",
+  "description": "GithubUser",
+  "homepage": "https://api.github.com",
+  "license": "MIT",
+  "authors": "Nop",
+  "platforms": {
+    "ios": "13.0"
+  },
+  "source": {
+    "path": ".",
+    "tag": "1.0.0"
+  },
+  "source_files": "SceneCore/*.swift",
+  "exclude_files": "SceneCore/Info.plist",
+  "dependencies": {
+    "RxSwift": [
+
+    ],
+    "RxCocoa": [
+
+    ],
+    "Domain": [
+      "1.0.0"
+    ]
+  }
+}

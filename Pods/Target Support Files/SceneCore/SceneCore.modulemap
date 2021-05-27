@@ -1,0 +1,6 @@
+framework module SceneCore {
+  umbrella header "SceneCore-umbrella.h"
+
+  export *
+  module * { export * }
+}

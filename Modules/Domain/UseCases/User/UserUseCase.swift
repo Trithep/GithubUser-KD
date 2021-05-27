@@ -9,5 +9,5 @@ import Foundation
 import RxSwift
 
 public protocol UserUseCaseDomain {
-    func getUser() -> Observable<User>
+    func getUser() -> Observable<[User]>
 }

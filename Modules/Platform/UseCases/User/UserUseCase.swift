@@ -14,7 +14,7 @@ class UserUseCase: Domain.UserUseCaseDomain {
         self.network = network
     }
     
-    func getUser() -> Observable<User> {
+    func getUser() -> Observable<[User]> {
         return network.request(UserRequest.users, errorType: APIError.self)
     }
 }

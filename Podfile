@@ -5,21 +5,22 @@ def default_pods
   
     pod 'Action'
     pod 'Kingfisher'
-        #pod 'Moya/RxSwift'
-        #pod 'Moya-ObjectMapper/RxSwift'
     pod 'MBProgressHUD'
     pod 'Reusable'
     pod 'RxSwift'
     pod 'RxCocoa'
     pod 'RxOptional'
     pod 'SwiftLint'
-
+    pod 'Kingfisher'
+    pod 'Reusable'
 end
 
 def modules_pods
   pod 'Domain', :path => 'Modules'
   pod 'Platform', :path => 'Modules'
   pod 'Networking', :path => 'Modules'
+  pod 'SceneCore', :path => 'Modules'
+  pod 'Extensions', :path => 'Modules'
 end
 
 target 'GithubUser' do

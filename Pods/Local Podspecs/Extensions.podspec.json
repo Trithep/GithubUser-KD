@@ -1,0 +1,39 @@
+{
+  "name": "Extensions",
+  "version": "1.0.0",
+  "summary": "components extension",
+  "description": "GithubUser",
+  "homepage": "https://api.github.com",
+  "license": "MIT",
+  "authors": "Nop",
+  "platforms": {
+    "ios": "13.0"
+  },
+  "source": {
+    "path": ".",
+    "tag": "1.0.0"
+  },
+  "default_subspecs": "All",
+  "dependencies": {
+    "RxSwift": [
+
+    ],
+    "RxCocoa": [
+
+    ]
+  },
+  "subspecs": [
+    {
+      "name": "All",
+      "source_files": [
+        "Extensions/*",
+        "Extensions/**/*.swift"
+      ],
+      "dependencies": {
+        "MBProgressHUD": [
+
+        ]
+      }
+    }
+  ]
+}
