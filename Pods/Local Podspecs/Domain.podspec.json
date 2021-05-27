@@ -1,0 +1,25 @@
+{
+  "name": "Domain",
+  "version": "1.0.0",
+  "summary": "Components domain",
+  "description": "GithubUser",
+  "homepage": "https://api.github.com",
+  "license": "MIT",
+  "authors": "Nop",
+  "platforms": {
+    "ios": "13.0"
+  },
+  "source": {
+    "path": ".",
+    "tag": "1.0.0"
+  },
+  "source_files": [
+    "Domain/**/*",
+    "Domain/**/**/*.swift"
+  ],
+  "dependencies": {
+    "RxSwift": [
+
+    ]
+  }
+}
