@@ -21,6 +21,8 @@ final class MainViewController: BaseViewController<MainViewModelType>
         super.setupView()
         tableView.register(cellType: UserTableViewCell.self)
         tableView.delegate = self
+        
+        navigationItem.title = "GitHub User"
     }
   
     override func bindInput(viewModel: MainViewModelType) {
@@ -53,6 +55,8 @@ final class MainViewController: BaseViewController<MainViewModelType>
                 cell.checkFavoriteStatus(self.viewModel.outputs.favoriteList)
     
                 return cell
+                
+            default: return UITableViewCell()
             }
         })
         
@@ -78,6 +82,6 @@ final class MainViewController: BaseViewController<MainViewModelType>
 extension MainViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("didSelectRowAt \(indexPath.row)")
+        viewModel.inputs.openUserDetailTrigger.accept(indexPath.row)
     }
 }

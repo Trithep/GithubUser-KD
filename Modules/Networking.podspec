@@ -9,7 +9,7 @@ Pod::Spec.new do |spec|
   spec.homepage     = 'https://api.github.com'
   spec.license      = "MIT"
   spec.author       = "Nop"
-  spec.platform     = :ios, "13.0"
+  spec.platform     = :ios, "12.0"
   spec.source       = { :path => '.', :tag => "#{spec.version.to_s}" }
   spec.source_files  = "Networking/*.swift"
   

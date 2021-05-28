@@ -23,6 +23,11 @@
 		2833954F265FF3FC006E98F3 /* UserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2833954E265FF3FC006E98F3 /* UserTableViewCell.xib */; };
 		28339551265FF829006E98F3 /* UserTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28339550265FF829006E98F3 /* UserTableViewCellModel.swift */; };
 		2833955326602741006E98F3 /* UserSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2833955226602741006E98F3 /* UserSection.swift */; };
+		28601A672660F2D9006BF556 /* UserRepositoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28601A662660F2D9006BF556 /* UserRepositoryViewController.swift */; };
+		28601A692660F31C006BF556 /* UserRepositoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28601A682660F31C006BF556 /* UserRepositoryViewModel.swift */; };
+		28601A6F2660FFCC006BF556 /* UserRepoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28601A6E2660FFCC006BF556 /* UserRepoTableViewCell.swift */; };
+		28601A712660FFE1006BF556 /* UserRepoTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28601A702660FFE1006BF556 /* UserRepoTableViewModel.swift */; };
+		28601A7326610009006BF556 /* UserRepoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28601A7226610009006BF556 /* UserRepoTableViewCell.xib */; };
 		7DA7CB851F85BCD27AF10B13 /* Pods_GithubUser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10492C364E73D35CBAF48442 /* Pods_GithubUser.framework */; };
 		8A3CDAD05A4A64D2255F8259 /* Pods_GithubUser_GithubUserUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41B0DCCD80B06EB5899DBC2B /* Pods_GithubUser_GithubUserUITests.framework */; };
 		A72CF376C6746B2226C5BA56 /* Pods_GithubUserTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3A050162C6261B00397D66 /* Pods_GithubUserTests.framework */; };
@@ -70,6 +75,11 @@
 		2833954E265FF3FC006E98F3 /* UserTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserTableViewCell.xib; sourceTree = "<group>"; };
 		28339550265FF829006E98F3 /* UserTableViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCellModel.swift; sourceTree = "<group>"; };
 		2833955226602741006E98F3 /* UserSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSection.swift; sourceTree = "<group>"; };
+		28601A662660F2D9006BF556 /* UserRepositoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepositoryViewController.swift; sourceTree = "<group>"; };
+		28601A682660F31C006BF556 /* UserRepositoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepositoryViewModel.swift; sourceTree = "<group>"; };
+		28601A6E2660FFCC006BF556 /* UserRepoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepoTableViewCell.swift; sourceTree = "<group>"; };
+		28601A702660FFE1006BF556 /* UserRepoTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepoTableViewModel.swift; sourceTree = "<group>"; };
+		28601A7226610009006BF556 /* UserRepoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserRepoTableViewCell.xib; sourceTree = "<group>"; };
 		3B3A050162C6261B00397D66 /* Pods_GithubUserTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GithubUserTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F2A919E52A4101FF3681ACE /* Pods-GithubUser-GithubUserUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubUser-GithubUserUITests.debug.xcconfig"; path = "Target Support Files/Pods-GithubUser-GithubUserUITests/Pods-GithubUser-GithubUserUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		41B0DCCD80B06EB5899DBC2B /* Pods_GithubUser_GithubUserUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GithubUser_GithubUserUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -201,6 +211,7 @@
 			children = (
 				28339541265FB492006E98F3 /* Base */,
 				28339544265FB606006E98F3 /* Main */,
+				28601A652660F293006BF556 /* UserRepository */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -226,11 +237,39 @@
 		2833954B265FF359006E98F3 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				28601A6D2660FF7E006BF556 /* UserRepo */,
+				28601A6C2660FF73006BF556 /* UserList */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		28601A652660F293006BF556 /* UserRepository */ = {
+			isa = PBXGroup;
+			children = (
+				28601A662660F2D9006BF556 /* UserRepositoryViewController.swift */,
+				28601A682660F31C006BF556 /* UserRepositoryViewModel.swift */,
+			);
+			path = UserRepository;
+			sourceTree = "<group>";
+		};
+		28601A6C2660FF73006BF556 /* UserList */ = {
+			isa = PBXGroup;
+			children = (
 				2833954C265FF394006E98F3 /* UserTableViewCell.swift */,
 				28339550265FF829006E98F3 /* UserTableViewCellModel.swift */,
 				2833954E265FF3FC006E98F3 /* UserTableViewCell.xib */,
 			);
-			path = Cells;
+			path = UserList;
+			sourceTree = "<group>";
+		};
+		28601A6D2660FF7E006BF556 /* UserRepo */ = {
+			isa = PBXGroup;
+			children = (
+				28601A6E2660FFCC006BF556 /* UserRepoTableViewCell.swift */,
+				28601A702660FFE1006BF556 /* UserRepoTableViewModel.swift */,
+				28601A7226610009006BF556 /* UserRepoTableViewCell.xib */,
+			);
+			path = UserRepo;
 			sourceTree = "<group>";
 		};
 		4531893A72995AEC8BAC0AC3 /* Pods */ = {
@@ -365,6 +404,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2833954F265FF3FC006E98F3 /* UserTableViewCell.xib in Resources */,
+				28601A7326610009006BF556 /* UserRepoTableViewCell.xib in Resources */,
 				283394FF265E7B90006E98F3 /* LaunchScreen.storyboard in Resources */,
 				283394FC265E7B90006E98F3 /* Assets.xcassets in Resources */,
 				283394FA265E7B8C006E98F3 /* Main.storyboard in Resources */,
@@ -497,14 +537,18 @@
 			files = (
 				28339546265FB83E006E98F3 /* MainViewModel.swift in Sources */,
 				28339540265FB43B006E98F3 /* StoryBoard.swift in Sources */,
+				28601A672660F2D9006BF556 /* UserRepositoryViewController.swift in Sources */,
 				28339551265FF829006E98F3 /* UserTableViewCellModel.swift in Sources */,
+				28601A6F2660FFCC006BF556 /* UserRepoTableViewCell.swift in Sources */,
 				2833953C265FB0CF006E98F3 /* MainScene.swift in Sources */,
 				283394F3265E7B8C006E98F3 /* AppDelegate.swift in Sources */,
 				2833954D265FF394006E98F3 /* UserTableViewCell.swift in Sources */,
+				28601A692660F31C006BF556 /* UserRepositoryViewModel.swift in Sources */,
 				283394F5265E7B8C006E98F3 /* SceneDelegate.swift in Sources */,
 				2833953E265FB16F006E98F3 /* MainViewController.swift in Sources */,
 				2833955326602741006E98F3 /* UserSection.swift in Sources */,
 				28339543265FB4A5006E98F3 /* BaseViewController.swift in Sources */,
+				28601A712660FFE1006BF556 /* UserRepoTableViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -610,7 +654,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -665,7 +709,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -683,7 +727,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = GithubUser/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -703,7 +747,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = GithubUser/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

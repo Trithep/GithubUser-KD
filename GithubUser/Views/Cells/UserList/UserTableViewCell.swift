@@ -43,6 +43,10 @@ final class UserTableViewCell: UITableViewCell, NibReusable {
         favoriteButton.isSelected = list.contains(where: { $0 == viewModel.outputs.userId })
     }
     
+    func hideFavoriteButton() {
+        favoriteButton.isHidden = true
+    }
+    
     @IBAction private func addFavoriteAction(_ sender: UIButton) {
         addFavoriteCallback?(viewModel.outputs.userId)
         

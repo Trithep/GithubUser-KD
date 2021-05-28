@@ -2,14 +2,13 @@
 //  MainViewModel.swift
 //  GithubUser
 //
-//  Created by Trithep Thumrongluck on 27/5/2564 BE.
-//
 
 import Foundation
 import SceneCore
 import RxSwift
 import RxCocoa
 import Domain
+import Extensions
 
 protocol MainViewModelType {
     var inputs: MainViewModelInput { get }
@@ -19,6 +18,7 @@ protocol MainViewModelType {
 protocol MainViewModelInput {
     var viewDidLoadTrigger: PublishSubject<Void> { get }
     var addFavoriteTrigger: PublishRelay<Int> { get }
+    var openUserDetailTrigger: PublishRelay<Int> { get }
 }
 
 protocol MainViewModelOutput {
@@ -37,20 +37,34 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
     var sectionRows: Driver<[UserSection]> = .empty()
     var favoriteList: [Int] { return favoriteUsers }
     var addFavoriteTrigger: PublishRelay<Int> = .init()
+    var openUserDetailTrigger: PublishRelay<Int> = .init()
     
     private let bag = DisposeBag()
     private let coordinator: SceneCoordinator
     private let provider: UseCaseProviderDomain
-    private var favoriteUsers: [Int]
+    private var favoriteUsers: [Int] {
+        willSet(newValue) {
+            DispatchQueue.main.async {
+                UserDefaults.standard.setValue(newValue, forKey: "favorite_user")
+                UserDefaults.standard.synchronize()
+            }
+        }
+    }
+    private var users: [User]
     
     init(coordinator: SceneCoordinator, provider: UseCaseProviderDomain) {
         self.coordinator = coordinator
         self.provider = provider
         self.favoriteUsers = (UserDefaults.standard.array(forKey: "favorite_user") as? Array<Int>) ?? []
+        self.users = []
+        
+        let loading = ActivityIndicator()
+        isLoading = loading.asDriver(onErrorDriveWith: .empty())
         
         let getUsersResponse = viewDidLoadTrigger.flatMapLatest { () -> Observable<Event<[User]>> in
-            return provider.makeUserUseCases().getUser().materialize()
-        }.filter{!$0.isCompleted}
+            return provider.makeUserUseCases().getUser()
+                .materialize().trackActivity(loading)
+        }.filter{!$0.isCompleted}.share()
 
         sectionRows = getUsersResponse.elements()
             .map({ users in
@@ -76,10 +90,21 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
                 // add fav
                 favList.append(userId)
             }
-            UserDefaults.standard.setValue(favList, forKey: "favorite_user")
-            UserDefaults.standard.synchronize()
             self.favoriteUsers = favList
             
+        }.disposed(by: bag)
+        
+        openUserDetailTrigger
+            .withLatestFrom(getUsersResponse.elements(), resultSelector: { index, users in
+                users[index]
+            })
+            .bind { [weak self] user in
+                guard let self = self else { return }
+                let viewModel = UserRepositoryViewModel(coordinator: self.coordinator,
+                                                        provider: self.provider,
+                                                        owner: user)
+                let scene = MainScene.repoList(viewModel: viewModel)
+                self.coordinator.transition(type: .push(scene, false))
         }.disposed(by: bag)
 
     }
