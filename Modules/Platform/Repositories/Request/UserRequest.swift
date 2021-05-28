@@ -8,6 +8,7 @@ import Networking
 enum UserRequest {
     case users
     case userRepo(userOwner: String)
+    case search(text: String)
 }
 
 extension UserRequest: Requestable {
@@ -17,6 +18,8 @@ extension UserRequest: Requestable {
             return "/users"
         case let .userRepo(userOwner):
             return "/users/\(userOwner)/repos"
+        case .search:
+            return "/search/users"
         }
     }
     
@@ -29,6 +32,8 @@ extension UserRequest: Requestable {
     
     var parameters: Encodable? {
         switch self {
+        case let .search(text):
+            return ["q" : text]
         default:
             return nil
         }
@@ -37,7 +42,7 @@ extension UserRequest: Requestable {
     var headers: [String : String]? {
         switch self {
         default:
-            return [:]
+            return nil
         }
     }
     

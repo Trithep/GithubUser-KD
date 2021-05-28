@@ -21,4 +21,8 @@ class UserUseCase: Domain.UserUseCaseDomain {
     func getUserRepo(userOwner: String) -> Observable<[UserRepo]> {
         return network.request(UserRequest.userRepo(userOwner: userOwner), errorType: APIError.self)
     }
+    
+    func searchUser(userName: String) -> Observable<UserSearch> {
+        return network.request(UserRequest.search(text: userName), errorType: APIError.self)
+    }
 }

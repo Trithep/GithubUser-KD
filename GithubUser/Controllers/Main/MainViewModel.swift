@@ -19,6 +19,9 @@ protocol MainViewModelInput {
     var viewDidLoadTrigger: PublishSubject<Void> { get }
     var addFavoriteTrigger: PublishRelay<Int> { get }
     var openUserDetailTrigger: PublishRelay<Int> { get }
+    var sortUserTrigger: PublishRelay<Void> { get }
+    var filterUserTrigger: PublishRelay<Void> { get }
+    var searchUserTrigger: BehaviorRelay<String> { get }
 }
 
 protocol MainViewModelOutput {
@@ -38,6 +41,9 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
     var favoriteList: [Int] { return favoriteUsers }
     var addFavoriteTrigger: PublishRelay<Int> = .init()
     var openUserDetailTrigger: PublishRelay<Int> = .init()
+    var sortUserTrigger: PublishRelay<Void> = .init()
+    var filterUserTrigger: PublishRelay<Void> = .init()
+    var searchUserTrigger: BehaviorRelay<String> = .init(value: "")
     
     private let bag = DisposeBag()
     private let coordinator: SceneCoordinator
@@ -50,23 +56,37 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
             }
         }
     }
-    private var users: [User]
     
     init(coordinator: SceneCoordinator, provider: UseCaseProviderDomain) {
         self.coordinator = coordinator
         self.provider = provider
         self.favoriteUsers = (UserDefaults.standard.array(forKey: "favorite_user") as? Array<Int>) ?? []
-        self.users = []
         
+        var _users: [User] = []
         let loading = ActivityIndicator()
         isLoading = loading.asDriver(onErrorDriveWith: .empty())
         
-        let getUsersResponse = viewDidLoadTrigger.flatMapLatest { () -> Observable<Event<[User]>> in
+        let searchUserResponse = searchUserTrigger.filter{!$0.isEmpty}
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+            .distinctUntilChanged { (left, right) -> Bool in
+                left == right
+            }
+            .flatMapLatest { text -> Observable<Event<UserSearch>> in
+                return provider.makeUserUseCases().searchUser(userName: text)
+                    .materialize().trackActivity(loading)
+            }.filter{!$0.isCompleted}.share()
+        
+        let searchUserResult = searchUserResponse.elements().filter{$0.items != nil}.map{$0.items!}
+
+        let emptySearchTrigger = searchUserTrigger.filter{$0.isEmpty}.map{_ in }
+            .filter{ !_users.isEmpty }.asObservable()
+        
+        let getUsersResponse = Observable.merge([viewDidLoadTrigger, emptySearchTrigger]).flatMapLatest { () -> Observable<Event<[User]>> in
             return provider.makeUserUseCases().getUser()
                 .materialize().trackActivity(loading)
         }.filter{!$0.isCompleted}.share()
-
-        sectionRows = getUsersResponse.elements()
+        
+        sectionRows = Observable.merge([getUsersResponse.elements(), searchUserResult])
             .map({ users in
                 
                 var items: [UserSectionRowItem] = []
@@ -74,7 +94,7 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
                     let vm = UserTableCellViewModel(user: user)
                     items.append(UserSectionRowItem.userList(vm))
                 }
-                
+                _users = users
                 return [UserSection(items: items)]
             })
           .asDriver(onErrorDriveWith: .empty())

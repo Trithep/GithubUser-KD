@@ -13,6 +13,9 @@ final class MainViewController: BaseViewController<MainViewModelType>
 {
     
     @IBOutlet private var tableView: UITableView!
+    @IBOutlet private var searchTextField: UITextField!
+    @IBOutlet private var sortButton: UIButton!
+    @IBOutlet private var filtterButton: UIButton!
     
     private let disposeBag = DisposeBag()
   
@@ -30,6 +33,15 @@ final class MainViewController: BaseViewController<MainViewModelType>
         
         rx.viewDidLoad
             .bind(to: viewModel.inputs.viewDidLoadTrigger)
+            .disposed(by: disposeBag)
+        
+        sortButton.rx.tap.bind(to: viewModel.inputs.sortUserTrigger)
+            .disposed(by: disposeBag)
+        
+        filtterButton.rx.tap.bind(to: viewModel.inputs.filterUserTrigger)
+            .disposed(by: disposeBag)
+        
+        searchTextField.rx.text.orEmpty.twoWayBind(to: viewModel.inputs.searchUserTrigger)
             .disposed(by: disposeBag)
     }
     
