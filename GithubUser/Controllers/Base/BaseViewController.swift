@@ -5,6 +5,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import MBProgressHUD
 
 class BaseViewController<ViewModel>: UIViewController, UIGestureRecognizerDelegate {
 
@@ -65,4 +66,29 @@ class BaseViewController<ViewModel>: UIViewController, UIGestureRecognizerDelega
     deinit {
         print("deinit: \(String(describing: self))")
     }
+}
+
+extension UIViewController {
+    @objc func showSpinner(_ title: String = "") {
+        DispatchQueue.main.async { [weak self] in
+            guard let strongSelf = self else { return }
+            
+            let spinnerActivity = MBProgressHUD.showAdded(to: strongSelf.view, animated: true)
+            spinnerActivity.contentColor = .white
+            spinnerActivity.bezelView.backgroundColor = .black
+            spinnerActivity.bezelView.alpha = 0.8
+            
+            if !title.isEmpty {
+                spinnerActivity.label.text = title
+            }
+        }
+    }
+    
+    func hideSpinner() {
+        DispatchQueue.main.async { [weak self] in
+            guard let strongSelf = self else { return }
+            MBProgressHUD.hide(for: strongSelf.view, animated: true)
+        }
+    }
+    
 }

@@ -2,6 +2,7 @@ PODS:
   - Action (4.3.0):
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
+  - Differentiator (5.0.0)
   - Domain (1.0.0):
     - RxSwift
   - Extensions (1.0.0):
@@ -29,6 +30,10 @@ PODS:
   - RxCocoa (6.1.0):
     - RxRelay (= 6.1.0)
     - RxSwift (= 6.1.0)
+  - RxDataSources (5.0.0):
+    - Differentiator (~> 5.0)
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
   - RxOptional (5.0.2):
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
@@ -51,6 +56,7 @@ DEPENDENCIES:
   - Platform (from `Modules`)
   - Reusable
   - RxCocoa
+  - RxDataSources
   - RxOptional
   - RxSwift
   - SceneCore (from `Modules`)
@@ -59,10 +65,12 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Action
+    - Differentiator
     - Kingfisher
     - MBProgressHUD
     - Reusable
     - RxCocoa
+    - RxDataSources
     - RxOptional
     - RxRelay
     - RxSwift
@@ -82,6 +90,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Action: 9891cd1b0a9047557d7e58e8dfae743e19d08197
+  Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   Domain: 5dc66428b01b68ad19823fafe64a0cd6a85412d7
   Extensions: 398aeb5dcff700ffde6ce122f21add7a99c3e678
   Kingfisher: e71c6fac2aebb1262888cabc2cb13d313362a48f
@@ -90,12 +99,13 @@ SPEC CHECKSUMS:
   Platform: 85088f87d59fc45d07db6768017d5df2b353bdb2
   Reusable: 53a9acf5c536f229b31b5865782414b508252ddb
   RxCocoa: 5c51f02d562cbd94629f6c26cf0c80fe4ab8d343
+  RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxOptional: 3664964c96b69dd20c9cf78bdfe546615e26eca8
   RxRelay: 483e1a19fad961b41f0b0c0bee506f46c1ae14fe
   RxSwift: a834e5c538e89eca0cae86f403f4fbf0336786ce
   SceneCore: 365de2bf8fb77dfb00617d970742f6be3430c672
   SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
 
-PODFILE CHECKSUM: ffa9401a733babea4b7e1a208fbdfa9ac406d4a2
+PODFILE CHECKSUM: ef39d3bfd7579b90c298b85f3eac386fc00ad3da
 
 COCOAPODS: 1.10.0
