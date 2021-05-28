@@ -10,6 +10,7 @@ def default_pods
     pod 'RxSwift'
     pod 'RxCocoa'
     pod 'RxOptional'
+    pod 'RxDataSources'
     pod 'SwiftLint'
     pod 'Kingfisher'
     pod 'Reusable'

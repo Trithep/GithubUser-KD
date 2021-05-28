@@ -5,6 +5,7 @@
 import UIKit
 import RxCocoa
 import RxSwift
+import RxDataSources
 import Extensions
 import Reusable
 
@@ -19,6 +20,7 @@ final class MainViewController: BaseViewController<MainViewModelType>
     override func setupView() {
         super.setupView()
         tableView.register(cellType: UserTableViewCell.self)
+        tableView.delegate = self
     }
   
     override func bindInput(viewModel: MainViewModelType) {
@@ -32,16 +34,31 @@ final class MainViewController: BaseViewController<MainViewModelType>
     override func bindOutput(viewModel: MainViewModelType) {
         super.bindOutput(viewModel: viewModel)
         
-        viewModel.outputs.usersResult
-            .drive(tableView.rx.items){ (table, item, element) in
-                let indexPath = IndexPath(item: item, section: 0)
-                let cell: UserTableViewCell = table.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as! UserTableViewCell
-                let vm = UserTableCellViewModel(user: element)
-                cell.configure(vm)
+        viewModel.outputs.isLoading.drive(onNext: { [weak self] (isLoading) in
+            guard let self = self else { return }
+            isLoading ? self.showSpinner() : self.hideSpinner()
+        }).disposed(by: bag)
+
+        let datasource = RxTableViewSectionedReloadDataSource<UserSection>(configureCell: { [weak self](_, tableView, index, item) -> UITableViewCell in
+            guard let self = self else { return UITableViewCell() }
+            
+            switch item {
+            case .userList(let viewModel):
+                let cell: UserTableViewCell = tableView.dequeueReusableCell(for: index, cellType: UserTableViewCell.self)
+                cell.configure(viewModel)
+                cell.addFavoriteCallback = { userId in
+                    self.viewModel.inputs.addFavoriteTrigger.accept(userId)
+                    tableView.reloadData()
+                }
+                cell.checkFavoriteStatus(self.viewModel.outputs.favoriteList)
+    
                 return cell
             }
-            .disposed(by: disposeBag)
-
+        })
+        
+        viewModel.outputs.sectionRows
+            .drive(tableView.rx.items(dataSource: datasource))
+            .disposed(by: bag)
     }
   
     // MARK: Routing
@@ -55,5 +72,12 @@ final class MainViewController: BaseViewController<MainViewModelType>
     override func viewDidLoad() {
         super.viewDidLoad()
         
+    }
+}
+
+extension MainViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("didSelectRowAt \(indexPath.row)")
     }
 }

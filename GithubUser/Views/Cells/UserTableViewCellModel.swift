@@ -5,6 +5,8 @@
 
 import Foundation
 import Domain
+import RxCocoa
+import RxSwift
 
 protocol UserTableListType {
   var inputs: UserTableListInputs { get }
@@ -12,13 +14,14 @@ protocol UserTableListType {
 }
 
 protocol UserTableListInputs {
-  
+    var favoriteDidTapped: PublishRelay<Int> { get }
 }
 
 protocol UserTableListOutputs {
     var imageUrl: URL? { get }
     var name: String { get }
     var url: String { get }
+    var userId: Int { get }
 }
 
 final class UserTableCellViewModel: UserTableListType, UserTableListInputs, UserTableListOutputs {
@@ -26,13 +29,17 @@ final class UserTableCellViewModel: UserTableListType, UserTableListInputs, User
     var inputs: UserTableListInputs { return self }
     var outputs: UserTableListOutputs { return self }
     
+    var favoriteDidTapped: PublishRelay<Int> = .init()
+    
     var imageUrl: URL? { return URL(string: user.avatarUrl ?? "") }
     var name: String { return user.login ?? "" }
     var url: String { return user.url ?? "" }
+    var userId: Int { return user.userId ?? 0 }
 
     private var user: User
+    private let disposeBag = DisposeBag()
     
     init(user: User) {
-      self.user = user
+        self.user = user
     }
 }
