@@ -22,6 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        let window = UIWindow(windowScene: windowScene)
         
         coordinator = .init(window: window)
         network = .init(base: URL(string: "https://api.github.com")!)
@@ -29,9 +30,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
        
         let viewModel = MainViewModel(coordinator: coordinator, provider: provider)
         let scene = MainScene.main(viewModel: viewModel)
-       
-        let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = scene.viewController as! MainViewController
+        let vc = scene.viewController as! MainViewController
+        let navigationController = UINavigationController(rootViewController: vc)
+        
+        window.rootViewController = navigationController
         self.window = window
         window.makeKeyAndVisible()
             

@@ -31,8 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        
         let viewModel = MainViewModel(coordinator: coordinator, provider: provider)
         let scene = MainScene.main(viewModel: viewModel)
-       
-        self.window?.rootViewController = scene.viewController as! MainViewController
+        let vc = scene.viewController as! MainViewController
+        let navigationController = UINavigationController(rootViewController: vc)
+        self.window?.rootViewController = navigationController
         self.window?.makeKeyAndVisible()
 
         return true

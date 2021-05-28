@@ -18,7 +18,7 @@ struct UserSection: AnimatableSectionModelType {
     typealias Identity = String
 
     var identity: String {
-        return "landing"
+        return ""
     }
 
     var items: [Item]
@@ -32,6 +32,7 @@ extension UserSection: IdentifiableType {}
 
 enum UserSectionRowItem {
     case userList(UserTableListType)
+    case userRepo(UserRepoTableListType)
 }
 
 extension UserSectionRowItem: IdentifiableType, Equatable {
@@ -45,6 +46,8 @@ extension UserSectionRowItem: IdentifiableType, Equatable {
         switch self {
         case .userList:
             return "UserTableViewCell"
+        case .userRepo:
+            return "UserRepoTableViewCell"
         }
     }
 }

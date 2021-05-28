@@ -39,6 +39,49 @@
             </objects>
             <point key="canvasLocation" x="57.971014492753625" y="88.392857142857139"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="4nF-dg-NIo">
+            <objects>
+                <navigationController id="XLE-0M-UQ3" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="75K-yy-Gm9">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NUh-MF-0WF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-933" y="88"/>
+        </scene>
+        <!--User Repository View Controller-->
+        <scene sceneID="ZK1-m1-gcb">
+            <objects>
+                <viewController storyboardIdentifier="UserRepositoryViewController" id="qnx-4L-kSd" customClass="UserRepositoryViewController" customModule="GithubUser" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rQ1-PX-4W9">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="54m-03-OnL">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="QdP-YC-WNO"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="54m-03-OnL" firstAttribute="leading" secondItem="QdP-YC-WNO" secondAttribute="leading" id="KQM-s7-Pkm"/>
+                            <constraint firstItem="QdP-YC-WNO" firstAttribute="trailing" secondItem="54m-03-OnL" secondAttribute="trailing" id="Ujd-Tn-zZp"/>
+                            <constraint firstItem="QdP-YC-WNO" firstAttribute="bottom" secondItem="54m-03-OnL" secondAttribute="bottom" id="gpB-3E-x8T"/>
+                            <constraint firstItem="54m-03-OnL" firstAttribute="top" secondItem="QdP-YC-WNO" secondAttribute="top" id="xNq-zZ-Cdr"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="54m-03-OnL" id="8KD-ta-5Wo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gka-pY-SLw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="906" y="88"/>
+        </scene>
     </scenes>
     <resources>
         <systemColor name="systemBackgroundColor">

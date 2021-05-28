@@ -7,13 +7,16 @@ import Networking
 
 enum UserRequest {
     case users
+    case userRepo(userOwner: String)
 }
 
 extension UserRequest: Requestable {
     var path: String {
         switch  self {
         case .users:
-            return "/users" /// https://api.github.com/users
+            return "/users"
+        case let .userRepo(userOwner):
+            return "/users/\(userOwner)/repos"
         }
     }
     

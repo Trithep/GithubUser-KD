@@ -14,7 +14,7 @@ protocol UserTableListType {
 }
 
 protocol UserTableListInputs {
-    var favoriteDidTapped: PublishRelay<Int> { get }
+    
 }
 
 protocol UserTableListOutputs {
@@ -28,8 +28,6 @@ final class UserTableCellViewModel: UserTableListType, UserTableListInputs, User
     
     var inputs: UserTableListInputs { return self }
     var outputs: UserTableListOutputs { return self }
-    
-    var favoriteDidTapped: PublishRelay<Int> = .init()
     
     var imageUrl: URL? { return URL(string: user.avatarUrl ?? "") }
     var name: String { return user.login ?? "" }

@@ -10,4 +10,5 @@ import RxSwift
 
 public protocol UserUseCaseDomain {
     func getUser() -> Observable<[User]>
+    func getUserRepo(userOwner: String) -> Observable<[UserRepo]>
 }
