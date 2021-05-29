@@ -61,7 +61,7 @@ public extension Requestable {
 
             request.httpBody = parameters?.toJSONData()
         }
-        
+        print("error >> \(String(describing: request.url))")
         return .just(request)
     }
 }

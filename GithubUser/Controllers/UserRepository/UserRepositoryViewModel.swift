@@ -16,12 +16,14 @@ protocol UserRepositoryType {
 
 protocol UserRepositoryInputs {
     var viewDidLoadTrigger: PublishSubject<Void> { get }
+    func backPage()
 }
 
 protocol UserRepositoryOutputs {
     var isLoading: Driver<Bool> { get }
     var sectionRows: Driver<[UserSection]> { get }
     var headerViewModel: UserTableListType { get }
+    var alertError: Driver<String> { get }
 }
 
 final class UserRepositoryViewModel: UserRepositoryType, UserRepositoryInputs, UserRepositoryOutputs {
@@ -35,6 +37,7 @@ final class UserRepositoryViewModel: UserRepositoryType, UserRepositoryInputs, U
     var headerViewModel: UserTableListType {
         return UserTableCellViewModel(user: owner)
     }
+    var alertError: Driver<String> = .empty()
     
     private let bag = DisposeBag()
     private let coordinator: SceneCoordinator
@@ -50,7 +53,7 @@ final class UserRepositoryViewModel: UserRepositoryType, UserRepositoryInputs, U
         isLoading = loading.asDriver(onErrorDriveWith: .empty())
         
         let getUsersRepoResponse = viewDidLoadTrigger.flatMapLatest { () -> Observable<Event<[UserRepo]>> in
-            return provider.makeUserUseCases().getUserRepo(userOwner: owner.login ?? "")
+            return provider.makeUserUseCases().getUserRepo(userOwner: owner.login)
                 .materialize().trackActivity(loading)
         }.filter{!$0.isCompleted}.share()
     
@@ -66,5 +69,15 @@ final class UserRepositoryViewModel: UserRepositoryType, UserRepositoryInputs, U
                 return [UserSection(items: items)]
             })
           .asDriver(onErrorDriveWith: .empty())
+        
+        alertError = getUsersRepoResponse.errors()
+            .map{ $0 as? APIError}
+            .filter{ $0 != nil }
+            .map{ $0!.message ?? "Something error" }
+            .asDriver(onErrorDriveWith: .empty())
+    }
+    
+    func backPage() {
+        coordinator.transition(type: .pop(true))
     }
 }

@@ -35,6 +35,7 @@ protocol MainViewModelOutput {
     var favoriteList: [Int] { get }
     var displaySortList: Driver<Void> { get }
     var sortStateChange: Driver<Bool> { get }
+    var alertError: Driver<String> { get }
 }
 
 final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelOutput {
@@ -53,6 +54,7 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
     var searchUserTrigger: BehaviorRelay<String> = .init(value: "")
     var displaySortList: Driver<Void> = .empty()
     var sortStateChange: Driver<Bool> = .empty()
+    var alertError: Driver<String> = .empty()
     
     private let bag = DisposeBag()
     private let coordinator: SceneCoordinator
@@ -158,5 +160,10 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
                 self.coordinator.transition(type: .push(scene, false))
         }.disposed(by: bag)
 
+        alertError = Observable.merge([getUsersResponse.errors(), searchUserResponse.errors()])
+            .map{ $0 as? APIError}
+            .filter{ $0 != nil }
+            .map{ $0!.message ?? "Something error" }
+            .asDriver(onErrorDriveWith: .empty())
     }
 }

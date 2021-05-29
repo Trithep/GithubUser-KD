@@ -87,7 +87,15 @@ final class MainViewController: BaseViewController<MainViewModelType>
             .disposed(by: bag)
         
         viewModel.outputs.sortStateChange.drive(sortButton.rx.isSelected).disposed(by: disposeBag)
-
+        
+        viewModel.outputs.alertError.drive { msg in
+            let actionSheet =  UIAlertController(title: msg, message: nil, preferredStyle: .alert)
+            actionSheet.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: { [weak self] _ in
+                guard let self = self else { return }
+                self.searchTextField.text = ""
+            }))
+            self.present(actionSheet, animated: true, completion: nil)
+        }.disposed(by: bag)
     }
 }
 
