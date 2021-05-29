@@ -73,7 +73,7 @@ final class UserRepositoryViewModel: UserRepositoryType, UserRepositoryInputs, U
         alertError = getUsersRepoResponse.errors()
             .map{ $0 as? APIError}
             .filter{ $0 != nil }
-            .map{ $0!.message ?? "Something error" }
+            .map{ $0!.message }
             .asDriver(onErrorDriveWith: .empty())
     }
     

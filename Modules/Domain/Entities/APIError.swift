@@ -6,7 +6,7 @@ import Foundation
 
 final public class APIError: Codable, Error {
     
-    public var message: String?
+    public var message: String = "Something error"
     
     enum CodingKeys: String, CodingKey {
         case message
@@ -15,16 +15,10 @@ final public class APIError: Codable, Error {
     required public init(from decoder: Decoder) throws {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        message = try? container.decode(String.self, forKey: .message)
+        message = try container.decode(String.self, forKey: .message) 
     }
     
     public init() {}
 
 }
 
-/*
- {
-   "message": "Requires authentication",
-   "documentation_url": "https://docs.github.com/rest/reference/users#get-the-authenticated-user"
- }
- */
