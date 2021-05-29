@@ -85,19 +85,9 @@ final class MainViewController: BaseViewController<MainViewModelType>
         viewModel.outputs.sectionRows
             .drive(tableView.rx.items(dataSource: datasource))
             .disposed(by: bag)
-    }
-  
-    // MARK: Routing
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    
-    }
-  
-    // MARK: View lifecycle
-  
-    override func viewDidLoad() {
-        super.viewDidLoad()
         
+        viewModel.outputs.sortStateChange.drive(sortButton.rx.isSelected).disposed(by: disposeBag)
+
     }
 }
 

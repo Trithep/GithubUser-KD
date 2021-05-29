@@ -34,6 +34,7 @@ protocol MainViewModelOutput {
     var sectionRows: Driver<[UserSection]> { get }
     var favoriteList: [Int] { get }
     var displaySortList: Driver<Void> { get }
+    var sortStateChange: Driver<Bool> { get }
 }
 
 final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelOutput {
@@ -51,6 +52,7 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
     var filterUserTrigger: PublishRelay<FilterType> = .init()
     var searchUserTrigger: BehaviorRelay<String> = .init(value: "")
     var displaySortList: Driver<Void> = .empty()
+    var sortStateChange: Driver<Bool> = .empty()
     
     private let bag = DisposeBag()
     private let coordinator: SceneCoordinator
@@ -69,18 +71,24 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
         self.provider = provider
         self.favoriteUsers = (UserDefaults.standard.array(forKey: "favorite_user") as? Array<Int>) ?? []
         
-        var _users: [User] = []
+        var responseUsers: [User] = []
+        var sortFlag: Bool = false
+        
         let loading = ActivityIndicator()
         isLoading = loading.asDriver(onErrorDriveWith: .empty())
         
-        let filterAll = filterUserTrigger.filter{$0 == .all}.map{_ in _users}
-        let filterFavorite = filterUserTrigger.filter{$0 == .favorite}.map{_ in _users}
+        let filterAll = filterUserTrigger.filter{$0 == .all}.map{_ in responseUsers}
+        let filterFavorite = filterUserTrigger.filter{$0 == .favorite}.map{_ in responseUsers}
             .map{
                 $0.filter { [weak self] user in
                     guard let self = self else { return false }
                     return self.favoriteUsers.contains(where: { $0 == user.userId })
                 }
             }
+        
+        let sortResult = sortUserTrigger.map{_ in responseUsers}.do{ _ in sortFlag = !sortFlag }.share()
+        
+        sortStateChange = sortUserTrigger.map{() in return sortFlag}.asDriver(onErrorDriveWith: .empty())
 
         let searchUserResponse = searchUserTrigger.filter{!$0.isEmpty}
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
@@ -95,7 +103,7 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
         let searchUserResult = searchUserResponse.elements().filter{$0.items != nil}.map{$0.items!}
 
         let emptySearchTrigger = searchUserTrigger.filter{$0.isEmpty}.map{_ in }
-            .filter{ !_users.isEmpty }.asObservable()
+            .filter{ !responseUsers.isEmpty }.asObservable()
         
         let getUsersResponse = Observable.merge([viewDidLoadTrigger, emptySearchTrigger]).flatMapLatest { () -> Observable<Event<[User]>> in
             return provider.makeUserUseCases().getUser()
@@ -103,13 +111,18 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
         }.filter{!$0.isCompleted}.share()
         
         let APIResponse = Observable.merge([getUsersResponse.elements(), searchUserResult])
-            .do { _users = $0 }
+            .do { responseUsers = $0 }
         
-        sectionRows = Observable.merge([APIResponse, filterAll, filterFavorite])
+        sectionRows = Observable.merge([APIResponse, filterAll, filterFavorite, sortResult])
             .map({ users in
                 
+                var _users = users
+                if sortFlag {
+                    _users = _users.sorted(by: { $0.login.lowercased() < $1.login.lowercased() })
+                }
+                
                 var items: [UserSectionRowItem] = []
-                users.enumerated().forEach { (index, user) in
+                _users.enumerated().forEach { (index, user) in
                     let vm = UserTableCellViewModel(user: user)
                     items.append(UserSectionRowItem.userList(vm))
                 }
