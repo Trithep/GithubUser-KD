@@ -27,7 +27,7 @@ public class URLSessionNetwork: Networkable, NetworkableInfo {
     private let headers: [String: String]
     private var sessionDelegate = URLSessionEncryption()
     
-    public init(base url: URL) {
+    public init(base url: URL, environment: Environment = .server) {
         self.baseURL = url
         
         let defaultDecoder = JSONDecoder()
@@ -38,6 +38,7 @@ public class URLSessionNetwork: Networkable, NetworkableInfo {
         defaultDecoder.dateDecodingStrategy = .formatted(formatter)
         self.decoder = defaultDecoder
         self.headers = [:]
+        self.environment = environment
     }
     
     public init(base url: URL, environment: Environment = .server, decoder: JSONDecoder? = nil, headers: [String: String] = [:]) {

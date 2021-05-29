@@ -40,6 +40,8 @@ PODS:
   - RxRelay (6.1.0):
     - RxSwift (= 6.1.0)
   - RxSwift (6.1.0)
+  - RxTest (6.1.0):
+    - RxSwift (= 6.1.0)
   - SceneCore (1.0.0):
     - Domain (= 1.0.0)
     - RxCocoa
@@ -59,6 +61,7 @@ DEPENDENCIES:
   - RxDataSources
   - RxOptional
   - RxSwift
+  - RxTest
   - SceneCore (from `Modules`)
   - SwiftLint
 
@@ -74,6 +77,7 @@ SPEC REPOS:
     - RxOptional
     - RxRelay
     - RxSwift
+    - RxTest
     - SwiftLint
 
 EXTERNAL SOURCES:
@@ -103,9 +107,10 @@ SPEC CHECKSUMS:
   RxOptional: 3664964c96b69dd20c9cf78bdfe546615e26eca8
   RxRelay: 483e1a19fad961b41f0b0c0bee506f46c1ae14fe
   RxSwift: a834e5c538e89eca0cae86f403f4fbf0336786ce
+  RxTest: 9d26616eaff4a7e75f4ecae9b2c24840f2e8218d
   SceneCore: 71e151ec2dcc096af818a70321899651ba07e3ff
   SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
 
-PODFILE CHECKSUM: 34e8118dc0bb2ee76d31876a2e1129cbf9c752e6
+PODFILE CHECKSUM: a0636105df59e44b1d31f6b84db87bd696073ce4
 
 COCOAPODS: 1.10.0
