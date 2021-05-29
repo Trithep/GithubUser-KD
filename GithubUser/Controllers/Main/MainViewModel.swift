@@ -115,21 +115,18 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
         let APIResponse = Observable.merge([getUsersResponse.elements(), searchUserResult])
             .do { responseUsers = $0 }
         
-        sectionRows = Observable.merge([APIResponse, filterAll, filterFavorite, sortResult])
-            .map({ users in
-                
-                var _users = users
-                if sortFlag {
-                    _users = _users.sorted(by: { $0.login.lowercased() < $1.login.lowercased() })
-                }
-                
+        let usersDataMerge = Observable.merge([APIResponse, filterAll, filterFavorite, sortResult])
+            .map{ sortFlag ? $0.sorted(by:{ $0.login.lowercased() < $1.login.lowercased() }) : $0 }
+        
+        sectionRows = usersDataMerge
+            .map{
                 var items: [UserSectionRowItem] = []
-                _users.enumerated().forEach { (index, user) in
+                $0.enumerated().forEach { (index, user) in
                     let vm = UserTableCellViewModel(user: user)
                     items.append(UserSectionRowItem.userList(vm))
                 }
                 return [UserSection(items: items)]
-            })
+            }
           .asDriver(onErrorDriveWith: .empty())
         
         addFavoriteTrigger.bind { [weak self] userId in
@@ -148,7 +145,7 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
         }.disposed(by: bag)
         
         openUserDetailTrigger
-            .withLatestFrom(getUsersResponse.elements(), resultSelector: { index, users in
+            .withLatestFrom(usersDataMerge, resultSelector: { index, users in
                 users[index]
             })
             .bind { [weak self] user in
@@ -163,7 +160,7 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
         alertError = Observable.merge([getUsersResponse.errors(), searchUserResponse.errors()])
             .map{ $0 as? APIError}
             .filter{ $0 != nil }
-            .map{ $0!.message ?? "Something error" }
+            .map{ $0!.message }
             .asDriver(onErrorDriveWith: .empty())
     }
 }

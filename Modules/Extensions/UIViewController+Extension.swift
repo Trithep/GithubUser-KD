@@ -2,9 +2,6 @@
 //  UIViewController+Extension.swift
 //  Core
 //
-//  Created by Mananchai Rojamornkul on 13/6/2562 BE.
-//  Copyright © 2562 Appsynth. All rights reserved.
-//
 
 import UIKit
 import MBProgressHUD
@@ -15,13 +12,6 @@ extension UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.view.backgroundColor = .clear
-    }
-    
-    public func coreSetupNavBarGrayScale() {
-        let textAttributes: [NSAttributedString.Key : Any] = [.foregroundColor : UIColor(hexString: "666666"),
-                                                              .font : UIFont.sevenFontRoundBold(24)]
-        navigationController?.navigationBar.titleTextAttributes = textAttributes
-        navigationController?.navigationBar.backgroundColor = .white
     }
     
     public func hideKeyboardWhenTappedOutside() {

@@ -2,9 +2,6 @@
 //  UIView+Extension.swift
 //  Core
 //
-//  Created by Nitikorn Ruengmontre on 19/7/2562 BE.
-//  Copyright © 2562 Appsynth. All rights reserved.
-//
 
 import UIKit
 

@@ -27,7 +27,7 @@ class SearchUserTests: FBSnapshotTestCase {
         super.setUp()
 //        recordMode = true
         scheduler = TestScheduler(initialClock: 0)
-        provider = UseCaseProvider(network: URLSessionNetwork(base: URL(string: "https://api.github.com")!, environment: .local))
+        provider = UseCaseProvider(network: URLSessionNetwork(base: URL(string: BaseURL.api)!, environment: .local))
         coordinator = SceneCoordinator(window: UIWindow(frame: UIScreen.main.bounds))
         let viewModel = MainViewModel(coordinator: coordinator, provider: provider)
         let scene = MainScene.main(viewModel: viewModel)

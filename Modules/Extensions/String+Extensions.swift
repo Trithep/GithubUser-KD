@@ -2,9 +2,6 @@
 //  String+Extensions.swift
 //  Core
 //
-//  Created by Mananchai Rojamornkul on 17/6/2562 BE.
-//  Copyright © 2562 Appsynth. All rights reserved.
-//
 
 public extension String {
     static let sevenStreamingIdentifierPrefix = "SEVEN_STREAMING_"
