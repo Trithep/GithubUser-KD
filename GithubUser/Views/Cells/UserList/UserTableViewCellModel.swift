@@ -14,7 +14,7 @@ protocol UserTableListType {
 }
 
 protocol UserTableListInputs {
-    
+    func checkFavoriteUser(_ list: [Int]) -> Bool
 }
 
 protocol UserTableListOutputs {
@@ -30,7 +30,7 @@ final class UserTableCellViewModel: UserTableListType, UserTableListInputs, User
     var outputs: UserTableListOutputs { return self }
     
     var imageUrl: URL? { return URL(string: user.avatarUrl ?? "") }
-    var name: String { return user.login ?? "" }
+    var name: String { return user.login }
     var url: String { return user.url ?? "" }
     var userId: Int { return user.userId ?? 0 }
 
@@ -39,5 +39,9 @@ final class UserTableCellViewModel: UserTableListType, UserTableListInputs, User
     
     init(user: User) {
         self.user = user
+    }
+    
+    func checkFavoriteUser(_ list: [Int]) -> Bool {
+        list.contains(where: { $0 == user.userId })
     }
 }

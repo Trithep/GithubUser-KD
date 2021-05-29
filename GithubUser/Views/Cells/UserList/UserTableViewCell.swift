@@ -40,7 +40,7 @@ final class UserTableViewCell: UITableViewCell, NibReusable {
     }
     
     func checkFavoriteStatus(_ list: [Int]) {
-        favoriteButton.isSelected = list.contains(where: { $0 == viewModel.outputs.userId })
+        favoriteButton.isSelected = viewModel.inputs.checkFavoriteUser(list)
     }
     
     func hideFavoriteButton() {

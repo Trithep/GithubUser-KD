@@ -33,7 +33,7 @@ target 'GithubUser' do
 
   target 'GithubUserTests' do
     inherit! :search_paths
-
+    pod 'RxTest'
   end
 
   target 'GithubUserUITests' do
