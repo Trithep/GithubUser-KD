@@ -92,18 +92,25 @@ public class URLSessionNetwork: Networkable, NetworkableInfo {
             
             let task = self.session.dataTask(with: request, completionHandler: { (data, response, error) in
                 
-                guard let data = data else {
+                guard let data = data, let response = response as? HTTPURLResponse else {
                     observer.onError(error ?? NetworkError.response)
                     return
                 }
                 
-                do {
-            
-                    let entity = try self.decoder.decode(T.self, from: data)
-                    observer.onNext(entity)
-                    observer.onCompleted()
-                } catch _ {
-                    
+                if response.statusCode == 200 {
+                    do {
+                        let entity = try self.decoder.decode(T.self, from: data)
+                        observer.onNext(entity)
+                        observer.onCompleted()
+                    } catch _ {
+                        do {
+                            let errorEntity = try self.decoder.decode(U.self, from: data)
+                            observer.onError(errorEntity)
+                        } catch {
+                            observer.onError(NetworkError.decodeEntity)
+                        }
+                    }
+                } else {
                     do {
                         let errorEntity = try self.decoder.decode(U.self, from: data)
                         observer.onError(errorEntity)

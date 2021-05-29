@@ -59,6 +59,13 @@ final class UserRepositoryViewController: BaseViewController<UserRepositoryType>
             .drive(tableView.rx.items(dataSource: datasource))
             .disposed(by: bag)
         
+        viewModel.outputs.alertError.drive { msg in
+            let actionSheet =  UIAlertController(title: msg, message: nil, preferredStyle: .alert)
+            actionSheet.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: { _ in
+                viewModel.inputs.backPage()
+            }))
+            self.present(actionSheet, animated: true, completion: nil)
+        }.disposed(by: bag)
     }
 }
 
