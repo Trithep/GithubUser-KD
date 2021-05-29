@@ -2,9 +2,6 @@
 //  URL+Extension.swift
 //  Action
 //
-//  Created by Nitikorn Ruengmontre on 23/6/2563 BE.
-//
-
 import Foundation
 
 public extension URL {

@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         
         coordinator = .init(window: window)
-        network = .init(base: URL(string: "https://api.github.com")!)
+        network = .init(base: URL(string: BaseURL.api)!)
         provider = UseCaseProvider(network: network)
        
         let viewModel = MainViewModel(coordinator: coordinator, provider: provider)

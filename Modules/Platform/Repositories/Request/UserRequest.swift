@@ -5,6 +5,10 @@
 import Foundation
 import Networking
 
+public enum BaseURL {
+    public static let api = "https://api.github.com"
+}
+
 enum UserRequest {
     case users
     case userRepo(userOwner: String)

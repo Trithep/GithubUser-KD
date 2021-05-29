@@ -23,7 +23,7 @@ class UserFavoriteTests: FBSnapshotTestCase {
     override func setUp() {
         super.setUp()
 //        recordMode = true
-        provider = UseCaseProvider(network: URLSessionNetwork(base: URL(string: "https://api.github.com")!, environment: .local))
+        provider = UseCaseProvider(network: URLSessionNetwork(base: URL(string: BaseURL.api)!, environment: .local))
         coordinator = SceneCoordinator(window: UIWindow(frame: UIScreen.main.bounds))
         let viewModel = MainViewModel(coordinator: coordinator, provider: provider)
         let scene = MainScene.main(viewModel: viewModel)
