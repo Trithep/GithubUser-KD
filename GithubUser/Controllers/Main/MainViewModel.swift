@@ -10,6 +10,11 @@ import RxCocoa
 import Domain
 import Extensions
 
+enum FilterType {
+    case all
+    case favorite
+}
+
 protocol MainViewModelType {
     var inputs: MainViewModelInput { get }
     var outputs: MainViewModelOutput { get }
@@ -20,7 +25,7 @@ protocol MainViewModelInput {
     var addFavoriteTrigger: PublishRelay<Int> { get }
     var openUserDetailTrigger: PublishRelay<Int> { get }
     var sortUserTrigger: PublishRelay<Void> { get }
-    var filterUserTrigger: PublishRelay<Void> { get }
+    var filterUserTrigger: PublishRelay<FilterType> { get }
     var searchUserTrigger: BehaviorRelay<String> { get }
 }
 
@@ -28,6 +33,7 @@ protocol MainViewModelOutput {
     var isLoading: Driver<Bool> { get }
     var sectionRows: Driver<[UserSection]> { get }
     var favoriteList: [Int] { get }
+    var displaySortList: Driver<Void> { get }
 }
 
 final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelOutput {
@@ -42,8 +48,9 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
     var addFavoriteTrigger: PublishRelay<Int> = .init()
     var openUserDetailTrigger: PublishRelay<Int> = .init()
     var sortUserTrigger: PublishRelay<Void> = .init()
-    var filterUserTrigger: PublishRelay<Void> = .init()
+    var filterUserTrigger: PublishRelay<FilterType> = .init()
     var searchUserTrigger: BehaviorRelay<String> = .init(value: "")
+    var displaySortList: Driver<Void> = .empty()
     
     private let bag = DisposeBag()
     private let coordinator: SceneCoordinator
@@ -66,6 +73,15 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
         let loading = ActivityIndicator()
         isLoading = loading.asDriver(onErrorDriveWith: .empty())
         
+        let filterAll = filterUserTrigger.filter{$0 == .all}.map{_ in _users}
+        let filterFavorite = filterUserTrigger.filter{$0 == .favorite}.map{_ in _users}
+            .map{
+                $0.filter { [weak self] user in
+                    guard let self = self else { return false }
+                    return self.favoriteUsers.contains(where: { $0 == user.userId })
+                }
+            }
+
         let searchUserResponse = searchUserTrigger.filter{!$0.isEmpty}
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .distinctUntilChanged { (left, right) -> Bool in
@@ -86,7 +102,10 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
                 .materialize().trackActivity(loading)
         }.filter{!$0.isCompleted}.share()
         
-        sectionRows = Observable.merge([getUsersResponse.elements(), searchUserResult])
+        let APIResponse = Observable.merge([getUsersResponse.elements(), searchUserResult])
+            .do { _users = $0 }
+        
+        sectionRows = Observable.merge([APIResponse, filterAll, filterFavorite])
             .map({ users in
                 
                 var items: [UserSectionRowItem] = []
@@ -94,7 +113,6 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
                     let vm = UserTableCellViewModel(user: user)
                     items.append(UserSectionRowItem.userList(vm))
                 }
-                _users = users
                 return [UserSection(items: items)]
             })
           .asDriver(onErrorDriveWith: .empty())

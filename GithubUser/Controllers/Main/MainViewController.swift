@@ -38,8 +38,18 @@ final class MainViewController: BaseViewController<MainViewModelType>
         sortButton.rx.tap.bind(to: viewModel.inputs.sortUserTrigger)
             .disposed(by: disposeBag)
         
-        filtterButton.rx.tap.bind(to: viewModel.inputs.filterUserTrigger)
-            .disposed(by: disposeBag)
+        filtterButton.rx.tap.bind { [weak self] in
+            guard let self = self else { return }
+            let actionSheet =  UIAlertController(title: "Filter user", message: nil, preferredStyle: .actionSheet)
+            actionSheet.addAction(UIAlertAction(title: "All", style: .default, handler: { action in
+                viewModel.inputs.filterUserTrigger.accept(.all)
+            }))
+            actionSheet.addAction(UIAlertAction(title: "Favorite", style: .default, handler: { action in
+                viewModel.inputs.filterUserTrigger.accept(.favorite)
+            }))
+            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(actionSheet, animated: true, completion: nil)
+        }.disposed(by: disposeBag)
         
         searchTextField.rx.text.orEmpty.twoWayBind(to: viewModel.inputs.searchUserTrigger)
             .disposed(by: disposeBag)
