@@ -17,8 +17,75 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s9r-zz-UMU">
+                                <rect key="frame" x="0.0" y="44" width="414" height="46"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tPV-ES-mIV">
+                                        <rect key="frame" x="0.0" y="0.0" width="338" height="46"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Find a repository" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HPb-xW-Loq">
+                                                <rect key="frame" x="20" y="8" width="312" height="30"/>
+                                                <color key="backgroundColor" white="0.95525208942262152" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="HPb-xW-Loq" secondAttribute="bottom" constant="8" id="akQ-sX-0Ph"/>
+                                            <constraint firstItem="HPb-xW-Loq" firstAttribute="top" secondItem="tPV-ES-mIV" secondAttribute="top" constant="8" id="fF1-xe-Yki"/>
+                                            <constraint firstAttribute="trailing" secondItem="HPb-xW-Loq" secondAttribute="trailing" constant="6" id="kih-Bf-wae"/>
+                                            <constraint firstItem="HPb-xW-Loq" firstAttribute="leading" secondItem="tPV-ES-mIV" secondAttribute="leading" constant="20" id="lvw-Va-I7w"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qpK-6v-FDx">
+                                        <rect key="frame" x="338" y="0.0" width="66" height="46"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="Xub-wh-3oQ">
+                                                <rect key="frame" x="0.0" y="0.0" width="66" height="46"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aoz-eg-hES">
+                                                        <rect key="frame" x="0.0" y="9.5" width="30" height="27"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="Aoz-eg-hES" secondAttribute="height" multiplier="26:23" id="yte-9s-rdu"/>
+                                                        </constraints>
+                                                        <state key="normal" image="inactive-sort-btn"/>
+                                                        <state key="selected" image="active-sort-btn"/>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z1c-a4-HZL">
+                                                        <rect key="frame" x="36" y="9.5" width="30" height="27"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="z1c-a4-HZL" secondAttribute="height" multiplier="26:23" id="Ubu-rx-7pf"/>
+                                                        </constraints>
+                                                        <state key="normal" title="Button" image="filter-btn"/>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="Xub-wh-3oQ" secondAttribute="trailing" id="DYS-uN-WB6"/>
+                                            <constraint firstAttribute="bottom" secondItem="Xub-wh-3oQ" secondAttribute="bottom" id="kSX-ea-327"/>
+                                            <constraint firstItem="Xub-wh-3oQ" firstAttribute="top" secondItem="qpK-6v-FDx" secondAttribute="top" id="tnJ-EN-q18"/>
+                                            <constraint firstAttribute="width" constant="66" id="xCV-ii-Wyx"/>
+                                            <constraint firstItem="Xub-wh-3oQ" firstAttribute="leading" secondItem="qpK-6v-FDx" secondAttribute="leading" id="xqa-dm-6g0"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9p9-YQ-A9d">
+                                        <rect key="frame" x="404" y="0.0" width="10" height="46"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="10" id="Rjn-fM-XUy"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="46" id="H5t-aW-kSK"/>
+                                </constraints>
+                            </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ekT-9B-vFu">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="90" width="414" height="772"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                         </subviews>
@@ -26,31 +93,24 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="ekT-9B-vFu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="0i7-DR-Gzy"/>
+                            <constraint firstItem="ekT-9B-vFu" firstAttribute="top" secondItem="s9r-zz-UMU" secondAttribute="bottom" id="1H7-1c-Mwb"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ekT-9B-vFu" secondAttribute="bottom" id="5YJ-rT-P31"/>
-                            <constraint firstItem="ekT-9B-vFu" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="N9O-b5-nDQ"/>
+                            <constraint firstAttribute="trailing" secondItem="s9r-zz-UMU" secondAttribute="trailing" id="Gfq-Dc-Aug"/>
+                            <constraint firstItem="s9r-zz-UMU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Omg-2b-Tfs"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ekT-9B-vFu" secondAttribute="trailing" id="WEu-nR-VBX"/>
+                            <constraint firstItem="s9r-zz-UMU" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="gyz-a1-n5M"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="filtterButton" destination="z1c-a4-HZL" id="5nJ-Jq-aET"/>
+                        <outlet property="searchTextField" destination="HPb-xW-Loq" id="2ef-kR-ijs"/>
+                        <outlet property="sortButton" destination="Aoz-eg-hES" id="Z3u-cT-gF3"/>
                         <outlet property="tableView" destination="ekT-9B-vFu" id="Ydw-2q-dYJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="57.971014492753625" y="88.392857142857139"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="4nF-dg-NIo">
-            <objects>
-                <navigationController id="XLE-0M-UQ3" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="75K-yy-Gm9">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NUh-MF-0WF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-933" y="88"/>
         </scene>
         <!--User Repository View Controller-->
         <scene sceneID="ZK1-m1-gcb">
@@ -84,6 +144,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="active-sort-btn" width="48" height="48"/>
+        <image name="filter-btn" width="48" height="48"/>
+        <image name="inactive-sort-btn" width="48" height="48"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

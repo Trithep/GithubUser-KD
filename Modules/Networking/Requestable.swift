@@ -51,14 +51,16 @@ public extension Requestable {
         request.httpMethod = method
         request.cachePolicy = .reloadIgnoringCacheData
           
-        additionalHeaders.forEach({ (header) in
-            request.addValue(header.value, forHTTPHeaderField: header.key)
-        })
-        headers?.forEach({ (header) in
-            request.addValue(header.value, forHTTPHeaderField: header.key)
-        })
-        
-        request.httpBody = parameters?.toJSONData()
+        if method != .GET {
+            additionalHeaders.forEach({ (header) in
+                request.addValue(header.value, forHTTPHeaderField: header.key)
+            })
+            headers?.forEach({ (header) in
+                request.addValue(header.value, forHTTPHeaderField: header.key)
+            })
+
+            request.httpBody = parameters?.toJSONData()
+        }
         
         return .just(request)
     }

@@ -13,6 +13,9 @@ final class MainViewController: BaseViewController<MainViewModelType>
 {
     
     @IBOutlet private var tableView: UITableView!
+    @IBOutlet private var searchTextField: UITextField!
+    @IBOutlet private var sortButton: UIButton!
+    @IBOutlet private var filtterButton: UIButton!
     
     private let disposeBag = DisposeBag()
   
@@ -30,6 +33,25 @@ final class MainViewController: BaseViewController<MainViewModelType>
         
         rx.viewDidLoad
             .bind(to: viewModel.inputs.viewDidLoadTrigger)
+            .disposed(by: disposeBag)
+        
+        sortButton.rx.tap.bind(to: viewModel.inputs.sortUserTrigger)
+            .disposed(by: disposeBag)
+        
+        filtterButton.rx.tap.bind { [weak self] in
+            guard let self = self else { return }
+            let actionSheet =  UIAlertController(title: "Filter user", message: nil, preferredStyle: .actionSheet)
+            actionSheet.addAction(UIAlertAction(title: "All", style: .default, handler: { action in
+                viewModel.inputs.filterUserTrigger.accept(.all)
+            }))
+            actionSheet.addAction(UIAlertAction(title: "Favorite", style: .default, handler: { action in
+                viewModel.inputs.filterUserTrigger.accept(.favorite)
+            }))
+            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(actionSheet, animated: true, completion: nil)
+        }.disposed(by: disposeBag)
+        
+        searchTextField.rx.text.orEmpty.twoWayBind(to: viewModel.inputs.searchUserTrigger)
             .disposed(by: disposeBag)
     }
     
@@ -63,19 +85,9 @@ final class MainViewController: BaseViewController<MainViewModelType>
         viewModel.outputs.sectionRows
             .drive(tableView.rx.items(dataSource: datasource))
             .disposed(by: bag)
-    }
-  
-    // MARK: Routing
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    
-    }
-  
-    // MARK: View lifecycle
-  
-    override func viewDidLoad() {
-        super.viewDidLoad()
         
+        viewModel.outputs.sortStateChange.drive(sortButton.rx.isSelected).disposed(by: disposeBag)
+
     }
 }
 

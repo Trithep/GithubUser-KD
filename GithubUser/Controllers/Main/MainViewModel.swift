@@ -10,6 +10,11 @@ import RxCocoa
 import Domain
 import Extensions
 
+enum FilterType {
+    case all
+    case favorite
+}
+
 protocol MainViewModelType {
     var inputs: MainViewModelInput { get }
     var outputs: MainViewModelOutput { get }
@@ -19,12 +24,17 @@ protocol MainViewModelInput {
     var viewDidLoadTrigger: PublishSubject<Void> { get }
     var addFavoriteTrigger: PublishRelay<Int> { get }
     var openUserDetailTrigger: PublishRelay<Int> { get }
+    var sortUserTrigger: PublishRelay<Void> { get }
+    var filterUserTrigger: PublishRelay<FilterType> { get }
+    var searchUserTrigger: BehaviorRelay<String> { get }
 }
 
 protocol MainViewModelOutput {
     var isLoading: Driver<Bool> { get }
     var sectionRows: Driver<[UserSection]> { get }
     var favoriteList: [Int] { get }
+    var displaySortList: Driver<Void> { get }
+    var sortStateChange: Driver<Bool> { get }
 }
 
 final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelOutput {
@@ -38,6 +48,11 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
     var favoriteList: [Int] { return favoriteUsers }
     var addFavoriteTrigger: PublishRelay<Int> = .init()
     var openUserDetailTrigger: PublishRelay<Int> = .init()
+    var sortUserTrigger: PublishRelay<Void> = .init()
+    var filterUserTrigger: PublishRelay<FilterType> = .init()
+    var searchUserTrigger: BehaviorRelay<String> = .init(value: "")
+    var displaySortList: Driver<Void> = .empty()
+    var sortStateChange: Driver<Bool> = .empty()
     
     private let bag = DisposeBag()
     private let coordinator: SceneCoordinator
@@ -50,31 +65,67 @@ final class MainViewModel: MainViewModelType, MainViewModelInput, MainViewModelO
             }
         }
     }
-    private var users: [User]
     
     init(coordinator: SceneCoordinator, provider: UseCaseProviderDomain) {
         self.coordinator = coordinator
         self.provider = provider
         self.favoriteUsers = (UserDefaults.standard.array(forKey: "favorite_user") as? Array<Int>) ?? []
-        self.users = []
+        
+        var responseUsers: [User] = []
+        var sortFlag: Bool = false
         
         let loading = ActivityIndicator()
         isLoading = loading.asDriver(onErrorDriveWith: .empty())
         
-        let getUsersResponse = viewDidLoadTrigger.flatMapLatest { () -> Observable<Event<[User]>> in
+        let filterAll = filterUserTrigger.filter{$0 == .all}.map{_ in responseUsers}
+        let filterFavorite = filterUserTrigger.filter{$0 == .favorite}.map{_ in responseUsers}
+            .map{
+                $0.filter { [weak self] user in
+                    guard let self = self else { return false }
+                    return self.favoriteUsers.contains(where: { $0 == user.userId })
+                }
+            }
+        
+        let sortResult = sortUserTrigger.map{_ in responseUsers}.do{ _ in sortFlag = !sortFlag }.share()
+        
+        sortStateChange = sortUserTrigger.map{() in return sortFlag}.asDriver(onErrorDriveWith: .empty())
+
+        let searchUserResponse = searchUserTrigger.filter{!$0.isEmpty}
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+            .distinctUntilChanged { (left, right) -> Bool in
+                left == right
+            }
+            .flatMapLatest { text -> Observable<Event<UserSearch>> in
+                return provider.makeUserUseCases().searchUser(userName: text)
+                    .materialize().trackActivity(loading)
+            }.filter{!$0.isCompleted}.share()
+        
+        let searchUserResult = searchUserResponse.elements().filter{$0.items != nil}.map{$0.items!}
+
+        let emptySearchTrigger = searchUserTrigger.filter{$0.isEmpty}.map{_ in }
+            .filter{ !responseUsers.isEmpty }.asObservable()
+        
+        let getUsersResponse = Observable.merge([viewDidLoadTrigger, emptySearchTrigger]).flatMapLatest { () -> Observable<Event<[User]>> in
             return provider.makeUserUseCases().getUser()
                 .materialize().trackActivity(loading)
         }.filter{!$0.isCompleted}.share()
-
-        sectionRows = getUsersResponse.elements()
+        
+        let APIResponse = Observable.merge([getUsersResponse.elements(), searchUserResult])
+            .do { responseUsers = $0 }
+        
+        sectionRows = Observable.merge([APIResponse, filterAll, filterFavorite, sortResult])
             .map({ users in
                 
+                var _users = users
+                if sortFlag {
+                    _users = _users.sorted(by: { $0.login.lowercased() < $1.login.lowercased() })
+                }
+                
                 var items: [UserSectionRowItem] = []
-                users.enumerated().forEach { (index, user) in
+                _users.enumerated().forEach { (index, user) in
                     let vm = UserTableCellViewModel(user: user)
                     items.append(UserSectionRowItem.userList(vm))
                 }
-                
                 return [UserSection(items: items)]
             })
           .asDriver(onErrorDriveWith: .empty())

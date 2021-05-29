@@ -6,7 +6,7 @@ import Foundation
 
 final public class User: Codable {
     
-    public var login: String?
+    public var login: String = ""
     public var userId: Int?
     public var nodeId: String?
     public var avatarUrl: String?
@@ -50,7 +50,7 @@ final public class User: Codable {
     required public init(from decoder: Decoder) throws {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        login = try? container.decode(String.self, forKey: .login)
+        login = try container.decode(String.self, forKey: .login)
         userId = try? container.decode(Int.self, forKey: .userId)
         nodeId = try? container.decode(String.self, forKey: .nodeId)
         avatarUrl = try? container.decode(String.self, forKey: .avatarUrl)

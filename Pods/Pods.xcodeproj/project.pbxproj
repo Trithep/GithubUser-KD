@@ -93,6 +93,7 @@
 		2683EA3F5287F44BEBEABB610C1D480B /* RxCollectionViewDataSourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBE8B1311E58D071DD5AA8C8C924C4F /* RxCollectionViewDataSourceType.swift */; };
 		285BF3AB84281569BD07D76D089DFB42 /* SceneCore-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BCD366934F507E1165A6E733617057 /* SceneCore-dummy.m */; };
 		28601A752661066A006BF556 /* UserRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28601A742661066A006BF556 /* UserRepo.swift */; };
+		28601A7726616B1F006BF556 /* UserSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28601A7626616B1F006BF556 /* UserSearch.swift */; };
 		2980F70568D8320CA467D01639EBD83B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C14778DC427C0CC5D47A1A89E4B81232 /* Foundation.framework */; };
 		29D5740FD81D44D09BC26B66B75DB9B2 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D022D23B196024022B19C98EED77CAC /* Filter.swift */; };
 		2A9D1AB5D063A6C22BEA4A3A766AEA72 /* RxCollectionViewReactiveArrayDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886A5DFAE953480DDC8DB5AD86449A05 /* RxCollectionViewReactiveArrayDataSource.swift */; };
@@ -1028,6 +1029,7 @@
 		2786C2252C1102984C4FB9D671A1CF0C /* RxOptional-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "RxOptional-dummy.m"; sourceTree = "<group>"; };
 		27D371D3B6B04B98DA06796977DD3628 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
 		28601A742661066A006BF556 /* UserRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepo.swift; sourceTree = "<group>"; };
+		28601A7626616B1F006BF556 /* UserSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearch.swift; sourceTree = "<group>"; };
 		291681B073C8C82C46E95739ADF6F49D /* String+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+Extensions.swift"; path = "Extensions/String+Extensions.swift"; sourceTree = "<group>"; };
 		298F0D56C0946C48BFCE4B27558A274F /* Reduce.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Reduce.swift; path = RxSwift/Observables/Reduce.swift; sourceTree = "<group>"; };
 		2994BF5C21501CE010F7D0D7BEAA8650 /* NSObject+Rx+RawRepresentable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSObject+Rx+RawRepresentable.swift"; path = "RxCocoa/Foundation/NSObject+Rx+RawRepresentable.swift"; sourceTree = "<group>"; };
@@ -2234,6 +2236,7 @@
 				3483C498057495CC3180C97DADB911D9 /* APIError.swift */,
 				89540576346D1FED93CAFBA9BBCB9A5C /* User.swift */,
 				28601A742661066A006BF556 /* UserRepo.swift */,
+				28601A7626616B1F006BF556 /* UserSearch.swift */,
 			);
 			name = Entities;
 			path = Domain/Entities;
@@ -3794,6 +3797,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28601A7726616B1F006BF556 /* UserSearch.swift in Sources */,
 				FD488513CA2C8F35DC4D57D620D21B0F /* APIError.swift in Sources */,
 				36BA36EE1168D934937611D888B2B473 /* Domain-dummy.m in Sources */,
 				CBEBDE09E357E546B9E4B083D365B88E /* UseCaseProviderDomain.swift in Sources */,
