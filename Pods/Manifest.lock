@@ -13,6 +13,11 @@ PODS:
     - MBProgressHUD
     - RxCocoa
     - RxSwift
+  - iOSSnapshotTestCase (6.2.0):
+    - iOSSnapshotTestCase/SwiftSupport (= 6.2.0)
+  - iOSSnapshotTestCase/Core (6.2.0)
+  - iOSSnapshotTestCase/SwiftSupport (6.2.0):
+    - iOSSnapshotTestCase/Core
   - Kingfisher (6.2.1)
   - MBProgressHUD (1.2.0)
   - Networking (1.0.0):
@@ -52,6 +57,7 @@ DEPENDENCIES:
   - Action
   - Domain (from `Modules`)
   - Extensions (from `Modules`)
+  - iOSSnapshotTestCase
   - Kingfisher
   - MBProgressHUD
   - Networking (from `Modules`)
@@ -69,6 +75,7 @@ SPEC REPOS:
   trunk:
     - Action
     - Differentiator
+    - iOSSnapshotTestCase
     - Kingfisher
     - MBProgressHUD
     - Reusable
@@ -97,6 +104,7 @@ SPEC CHECKSUMS:
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   Domain: a6fe21927f9be31e03bfa35839bbf8e4e5a7bd6f
   Extensions: 0d316fd4f6e2812b13691df4a91db22624583c1e
+  iOSSnapshotTestCase: 9ab44cb5aa62b84d31847f40680112e15ec579a6
   Kingfisher: e71c6fac2aebb1262888cabc2cb13d313362a48f
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
   Networking: 22394d0babb16d60247a74f7b1ff9a0a5b45a5bc
@@ -111,6 +119,6 @@ SPEC CHECKSUMS:
   SceneCore: 71e151ec2dcc096af818a70321899651ba07e3ff
   SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
 
-PODFILE CHECKSUM: a0636105df59e44b1d31f6b84db87bd696073ce4
+PODFILE CHECKSUM: dc939b10b676778cc6212f99b6821addb9ff0493
 
 COCOAPODS: 1.10.0

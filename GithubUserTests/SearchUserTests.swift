@@ -12,19 +12,26 @@ import RxTest
 import SceneCore
 import Platform
 import Networking
+import FBSnapshotTestCase
 @testable import GithubUser
 
-class SearchUserTests: XCTestCase {
+class SearchUserTests: FBSnapshotTestCase {
     
     var scheduler: TestScheduler!
     let bag = DisposeBag()
     var provider: UseCaseProviderDomain!
     var coordinator: SceneCoordinator!
+    var vc: MainViewController!
 
     override func setUp() {
+        super.setUp()
+//        recordMode = true
         scheduler = TestScheduler(initialClock: 0)
         provider = UseCaseProvider(network: URLSessionNetwork(base: URL(string: "https://api.github.com")!, environment: .local))
         coordinator = SceneCoordinator(window: UIWindow(frame: UIScreen.main.bounds))
+        let viewModel = MainViewModel(coordinator: coordinator, provider: provider)
+        let scene = MainScene.main(viewModel: viewModel)
+        vc = scene.viewController as? MainViewController
     }
 
     override func tearDown() {
@@ -32,6 +39,9 @@ class SearchUserTests: XCTestCase {
     }
     
     func testSeacrhUserFound_then_displayUserInfo() {
+    
+        FBSnapshotVerifyView(vc.view)
+        
         let json = jsonDataSearchGitHubUser(userName: "mojombo")
         
         do {
@@ -49,6 +59,9 @@ class SearchUserTests: XCTestCase {
     }
     
     func testSearchUserWithAtLeastOneCharacterInput_then_getSearchResult() {
+        
+        FBSnapshotVerifyView(vc.view)
+        
         let sut = MainViewModel(coordinator: coordinator, provider: provider)
         
         let sections = scheduler.createObserver([UserSection].self)
@@ -68,6 +81,9 @@ class SearchUserTests: XCTestCase {
     }
     
     func testSearchUserWithoutCharacterInput_then_noSearchResult() {
+        
+        FBSnapshotVerifyView(vc.view)
+        
         let sut = MainViewModel(coordinator: coordinator, provider: provider)
         
         let sections = scheduler.createObserver([UserSection].self)

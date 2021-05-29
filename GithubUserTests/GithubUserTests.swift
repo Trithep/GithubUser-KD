@@ -8,19 +8,36 @@
 import XCTest
 import Domain
 import RxSwift
+import SceneCore
+import Platform
+import Networking
+import FBSnapshotTestCase
 @testable import GithubUser
 
-class UserFavoriteTests: XCTestCase {
+class UserFavoriteTests: FBSnapshotTestCase {
+    
+    var vc: MainViewController!
+    var provider: UseCaseProviderDomain!
+    var coordinator: SceneCoordinator!
 
     override func setUp() {
-        
+        super.setUp()
+//        recordMode = true
+        provider = UseCaseProvider(network: URLSessionNetwork(base: URL(string: "https://api.github.com")!, environment: .local))
+        coordinator = SceneCoordinator(window: UIWindow(frame: UIScreen.main.bounds))
+        let viewModel = MainViewModel(coordinator: coordinator, provider: provider)
+        let scene = MainScene.main(viewModel: viewModel)
+        vc = scene.viewController as? MainViewController
     }
 
     override func tearDown() {
-        
+        super.tearDown()
     }
     
     func testUserFoundInFavoriteList_then_checkFavorite() {
+        
+        FBSnapshotVerifyView(vc.view)
+        
         let json = jsonDataGitHubUser(userId: 1)
         let favoriteUsers: [Int] = [1]
         
@@ -39,6 +56,9 @@ class UserFavoriteTests: XCTestCase {
     }
     
     func testUserNotFoundInFavoriteList_then_unCheckFavorite() {
+        
+        FBSnapshotVerifyView(vc.view)
+        
         let json = jsonDataGitHubUser(userId: 2)
         let favoriteUsers: [Int] = [1]
         

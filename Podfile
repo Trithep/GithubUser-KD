@@ -34,6 +34,7 @@ target 'GithubUser' do
   target 'GithubUserTests' do
     inherit! :search_paths
     pod 'RxTest'
+    pod 'iOSSnapshotTestCase'
   end
 
   target 'GithubUserUITests' do
